@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimary">#3C72B0</color>
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorPrimaryDark">#1A6198</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorFailure">#F55</color>
+    <color name="colorWarning">#FA0</color>
+    <color name="colorInfo">#99A</color>
+    <!--<color name="colorSuccess">#55F</color>-->
+    <color name="colorSuccess">#3C72B0</color>
+    <color name="background">#127998</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorInfoLight">#EEE</color>
+    <color name="colorSuccessLight">#ACF</color>
+    <color name="colorFailureLight">#FCC</color>
+    <color name="fp_mask">#9000</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

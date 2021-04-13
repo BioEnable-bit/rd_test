@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/status_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorFailure"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/status_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/service_status"
+        app:layout_constraintDimensionRatio="W,1:2"
+        app:layout_constraintLeft_toRightOf="@+id/s3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_security_black_24dp" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminateDrawable="@drawable/custom_progress"
+        android:src="@drawable/custom_progress"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintBottom_toTopOf="@+id/service_status"
+        app:layout_constraintLeft_toRightOf="@+id/s3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/progress_freez"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/ring"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/service_status"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintLeft_toRightOf="@+id/s3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/service_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lines="2"
+        android:padding="12dp"
+        android:text="Registering device..."
+        android:textColor="#EEE"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/s3"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/i1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#FFF"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/s1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/s1"
+        app:srcCompat="@drawable/ic_swap_vertical_circle_black_24dp" />
+
+    <TextView
+        android:id="@+id/s1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FFF"
+        android:layout_marginTop="2dp"
+        android:padding="8dp"
+        android:text="Internet connectivity"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        app:layout_constraintRight_toRightOf="@+id/s3"
+        app:layout_constraintLeft_toRightOf="@+id/i1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/s2"/>
+
+    <ImageView
+        android:id="@+id/i2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#FFF"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/s2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/s2"
+        app:srcCompat="@drawable/ic_security_black_24dp" />
+
+    <TextView
+        android:id="@+id/s2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:background="#FFF"
+        android:padding="8dp"
+        android:text="Root status"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/s3"
+        app:layout_constraintRight_toRightOf="@+id/s3"
+        app:layout_constraintLeft_toRightOf="@+id/i2"
+        app:layout_constraintTop_toBottomOf="@+id/s1" />
+
+    <ImageView
+        android:id="@+id/i3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/s3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/s3"
+        app:srcCompat="@drawable/ic_usb_black_24dp" />
+
+    <TextView
+        android:id="@+id/s3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:background="#FFF"
+        android:padding="8dp"
+        android:text="Nitgen scanner connectivity status"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/s4"
+        app:layout_constraintLeft_toRightOf="@+id/i3"
+        app:layout_constraintTop_toBottomOf="@+id/s2" />
+
+    <ImageView
+        android:id="@+id/i4"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/s4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/s4"
+        app:srcCompat="@drawable/ic_offline_pin_black_24dp" />
+
+    <TextView
+        android:id="@+id/s4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:background="#FFF"
+        android:padding="8dp"
+        android:text="Scanner Registration status"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/reg_btn"
+        app:layout_constraintRight_toRightOf="@+id/s3"
+        app:layout_constraintLeft_toRightOf="@+id/i4"
+        app:layout_constraintTop_toBottomOf="@+id/s3" />
+
+    <Button
+        android:id="@+id/reg_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_goneMarginTop="2dp"
+        android:background="@color/colorSuccess"
+        android:gravity="center"
+        android:onClick="onClickRegisterButton"
+        android:text="Register"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/company_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/s3"
+        app:layout_constraintTop_toBottomOf="@+id/s4"/>
+
+    <ImageView
+        android:id="@+id/company_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:padding="8dp"
+        android:background="#FFF"
+        app:srcCompat="@drawable/bioenable_logo_creative"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_btn"
+        app:layout_constraintRight_toRightOf="@+id/s3"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

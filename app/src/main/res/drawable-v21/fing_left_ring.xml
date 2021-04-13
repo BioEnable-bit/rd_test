@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="36dp"
+    android:viewportHeight="48"
+    android:viewportWidth="36">
+
+    <path
+        android:fillColor="#3C72B0"
+        android:strokeColor="#3C72B0"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="
+        M3 24L3 15
+        M6 21L6 6
+        M9 20L9 3
+        M12 21L12 6
+        M15 30L15 21
+        M21 30L21 21
+        M24 21L24 6
+        M27 20L27 3
+        M30 21L30 6
+        M33 24L33 15
+
+        M3 24A1 2 0 0 0 6 24
+        L6 21A1 2 0 0 0 9 21
+        L9 21A1 2 0 0 0 12 21
+        L12 30A1 2 0 0 0 15 30
+        A 6 12 0 0 1 3 30L3 24
+
+        M21 30A1 2 0 0 0 24 30
+        L24 21A1 2 0 0 0 27 21
+        L27 21A1 2 0 0 0 30 21
+        L30 24A1 2 0 0 0 33 24
+        L33 30A6 12 0 0 1 21 30
+"/>
+    <path android:strokeLineCap="round"
+        android:strokeColor="#9F00"
+        android:fillColor="#9F00"
+        android:strokeWidth="6"
+        android:pathData="M6 6L6 7 "/>
+</vector>

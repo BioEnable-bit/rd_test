@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">BioEnable Nitgen RDservice</string>
+    <string name="menu_reregister">Re-register</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="footer_title">BioEnable Technologies Pvt. Ltd.\n<a href="www.bioenabletech.com">www.bioenabletech.com</a></string>
+    <!--<string name="support_contact">For any support please contact us on:\n<a href="02066813721">02066813721</a></string>-->
+    <string name="support_contact">For any support please contact us on:\n02066813721</string>
+    <!--<string name="support_email">For any query, please email us on:\n<a href="support@bioenabletech.com">support@bioenabletech.com</a></string>-->
+    <string name="support_email">For any query, please email us on:\nsupport@bioenabletech.com</string>
+    <string name="register_device">REGISTER DEVICE</string>
+    <!--<string name="support_phone_number">18002092131</string>-->
+    <string name="support_phone_number">02066813721</string>
+    <string name="website">https://www.bioenabletech.com</string>
+    <string name="support_email_id">support@bioenabletech.com</string>
+    <string name="internal_version">IV : </string>
+    <string name="uidai_version">UIDAI RDService version:</string>
+    <!--<string name="internal_version">iv: 1.1.8</string>-->
+    <string name="help_url">https://aadhaar.bioenabletech.com/android-rd-service</string>
+    <string name="env_spinner_hint">Select environment:</string>
+    <string name="alert">Environment as PP or S is for development purpose only. Please make sure, for real UIDAI authentications, environment is P.</string>
+    <string name="volume">volume</string>
+    <string name="facing">facing</string>
+    <string name="voice_enabled">voice_enabled</string>
+    <string name="settings_prefs">settings_prefs</string>
+    <string name="channel_id">MKN</string>
+
+    <string name="title_activity_permission">PermissionActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="img">RklEADAxMAAAAOzSAAEAAOzEAAAAAAAAAAAAAAAAAAAAAAEBBkAEsAAGAAAAAAAAAAxqUCAgDQqH
+CgAAABRmdHlwanAyIAAAAABqcDIgAAAALWpwMmgAAAAWaWhkcgAABLAAAAZAAAMHBwAAAAAAD2Nv
+bHIBAAAAAAAQAADsV2pwMmP/T/9RAC8AAAAABkAAAASwAAAAAAAAAAAAAAZAAAAEsAAAAAAAAAAA
+AAMHAQEHAQEHAQH/UgAMAAAAFgEFBAQAAf9cABNAQEhIUEhIUEhIUEhIUEhIUP9dABQBQEhQUFhQ
+UFhQUFhQUFhQUFj/XQAUAkBIUFBYUFBYUFBYUFBYUFBY/2QAIgABQ3JlYXRlZCBieTogSkoyMDAw
+IHZlcnNpb24gNC4x/5AACgAAAADrpwAB/10AFAFASFBQWFBQWFBQWFBQWFBQWP9dABQCQEhQUFhQ
+UFhQUFhQUFhQUFj/k99HrrCYY+UDtS1JLqRmITAIlGBlEY4qT2yZKhfMGmh6BPHZlAbkpMA4ebgC
+STQ34kzhZsNwSMitsJ388ZGM+r7wpU7x4/P+FquV</string>
+
+    <string name="notification_channel_id">in.bioenable.rdservice.fp.notification_status</string>
+</resources>

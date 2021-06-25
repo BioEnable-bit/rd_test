@@ -47,7 +47,7 @@ public class CryptoInterceptor implements Interceptor {
 
         Request request = chain.request().newBuilder()
                 .addHeader("Content-Length",Integer.toString(encryptedRequestBody.length()))
-                .addHeader("MD5",md5str)
+                //.addHeader("MD5",md5str)
                 .addHeader("Rds_Ver", Config.MNGT_REQ_VER)
                 .post(newBody)
                 .build();

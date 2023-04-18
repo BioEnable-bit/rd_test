@@ -5,7 +5,6 @@ public final class PidOptions {
     private boolean hasOpts=false;
     private boolean hasDemo=false;
     private boolean hasCustOpts=false;
-
     private String ver;
     private String fCount;
     private String fType;

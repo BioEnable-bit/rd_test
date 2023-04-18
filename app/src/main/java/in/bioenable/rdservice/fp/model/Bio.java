@@ -3,10 +3,20 @@ package in.bioenable.rdservice.fp.model;
 public class Bio {
 
     private String type = "";
+    private String type2 = "";
     private String bs = "";
     private String encodedBiometric;
     private String qScore = "";
     private String nmPoints = "";
+
+    public String getType2() {
+        return type2;
+    }
+
+    public Bio setType2(String type2) {
+        this.type2 = type2;
+        return this;
+    }
 
     private int posh;
 

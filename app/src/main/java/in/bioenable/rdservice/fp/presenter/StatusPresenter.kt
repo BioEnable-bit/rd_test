@@ -201,9 +201,25 @@ class StatusPresenter(val view : StatusView,val app:App) : BasePresenter(view),
 
     }
 
-    override fun onCaptured(iso: ByteArray, type: Int, quality: Int) {
-
+    override fun onCaptured(isofir: ByteArray, isofmr: ByteArray, type: Int, quality: Int) {
+        TODO("Not yet implemented")
     }
+
+    override fun onCapturedFIR(isofir: ByteArray, type: Int, quality: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCapturedFMR(isofmr: ByteArray, type: Int, quality: Int) {
+        TODO("Not yet implemented")
+    }
+
+//    override fun onCaptured(iso: ByteArray, type: Int, quality: Int) {
+//
+//    }
+
+//    override fun onCaptured2(iso: ByteArray, type: Int, quality: Int) {
+//
+//    }
 
     override fun onCaptureTimedOut() {
 

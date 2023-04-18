@@ -145,7 +145,7 @@ class PhoneVerificationFragment : androidx.fragment.app.Fragment(), IPhoneVerifi
     override fun stopTimer(){
         this.enabled = false
         this.timeout = 0
-        ui.removeCallbacks(null)
+        //ui.removeCallbacks(null)
         tvTimeout.text = null
     }
 }

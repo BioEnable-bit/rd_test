@@ -1,30 +1,35 @@
 package `in`.bioenable.rdservice.fp.ui
 
  import `in`.bioenable.rdservice.fp.R
-import `in`.bioenable.rdservice.fp.contracts.App
-import `in`.bioenable.rdservice.fp.contracts.HomeView
-import `in`.bioenable.rdservice.fp.contracts.StatusItemView
+ import `in`.bioenable.rdservice.fp.contracts.App
+ import `in`.bioenable.rdservice.fp.contracts.HomeView
+ import `in`.bioenable.rdservice.fp.contracts.StatusItemView
  import `in`.bioenable.rdservice.fp.helper.CryptoUtil
  import `in`.bioenable.rdservice.fp.model.Config
-import `in`.bioenable.rdservice.fp.presenter.HomePresenter
-import `in`.bioenable.rdservice.fp.service.ScannerService
-import androidx.appcompat.app.AppCompatActivity
-import android.content.*
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.net.Uri
-import android.os.Bundle
-import android.os.IBinder
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import com.nitgen.SDK.AndroidBSP.BuildConfig
+ import `in`.bioenable.rdservice.fp.presenter.HomePresenter
+ import `in`.bioenable.rdservice.fp.service.ScannerService
+ import android.content.*
+ import android.graphics.Bitmap
+ import android.graphics.Canvas
+ import android.graphics.Paint
+ import android.net.Uri
+ import android.os.Build
+ import android.os.Bundle
+ import android.os.Environment
+ import android.os.IBinder
+ import android.util.Log
+ import android.view.Menu
+ import android.view.MenuItem
+ import android.view.View
+ import android.widget.ImageView
+ import android.widget.TextView
+ import androidx.annotation.RequiresApi
+ import androidx.appcompat.app.AlertDialog
+ import androidx.appcompat.app.AppCompatActivity
+ import androidx.core.content.ContextCompat
+ import com.nitgen.SDK.AndroidBSP.BuildConfig
+ import java.io.*
+
 
 //import androidx.appcompat.app.AlertDialog
 //import androidx.appcompat.app.AppCompatActivity
@@ -49,10 +54,80 @@ class HomeActivity : AppCompatActivity(),
 
 //    private val REQ_CODE_IMEI = 57
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initActivity()
+        //readDatFiles()
+
+
+
+//        var loginToken: String = "[123456789]"
+//        loginToken = loginToken.substring(1, loginToken.length - 1)
+//        Log.e(TAG, "onCreate: $loginToken")
+//
+//        readFileFromExternalStorage()
     }
+
+    fun readFileFromExternalStorage() : ByteArray?
+    {
+        var f: File = File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "RDService/NitGen_1.min")
+        Log.e(TAG, "onCreate: "+f.absolutePath)
+
+        try {
+            val br = BufferedReader(FileReader(f))
+            var st: String?
+            while (br.readLines().also { st = it.toString() } != null) {
+                Log.e(TAG, "readFileFromExternalStorage: $st")
+                return st!!.toByteArray()
+            }
+
+        } catch (e: Exception)
+        {
+            Log.e(TAG, "onCreate: $e")
+        }
+         return null
+    }
+
+    fun readDatFiles() : ByteArray?
+    {
+        var reader: BufferedReader? =  null;
+        try {
+//            reader = BufferedReader(
+//                     InputStreamReader(assets.open("LeftIndex.dat"))
+//            );
+
+            reader = BufferedReader(
+                InputStreamReader(assets.open("thumb.dat"), "UTF-8")
+            )
+
+            // do reading, usually loop until end of file reading
+            var  mLine: String;
+            while ((reader.readLine()) != null) {
+                //Log.e(TAG, "readDatFiles: "+reader.readLine() )
+                    val bytes = reader.readLine().toByteArray()
+                return bytes;
+                Log.e(TAG, "readDatFiles: $bytes")
+            }
+        } catch (e : IOException) {
+            Log.e(TAG, "readDatFiles: $e")
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (e : IOException) {
+                    Log.e(TAG, "readDatFiles: $e")
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+
+
+
 
     private fun initActivity() {
 
@@ -88,7 +163,7 @@ class HomeActivity : AppCompatActivity(),
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.action_clear_data -> {
                 AlertDialog.Builder(this)
@@ -107,7 +182,7 @@ class HomeActivity : AppCompatActivity(),
                         .setView(content)
                         .setPositiveButton("OK", null)
                         .show()
-                val iv = getString(R.string.internal_version) + BuildConfig.VERSION_CODE
+                val iv = getString(R.string.internal_version)
                 (content.findViewById<View>(R.id.internal_version) as TextView).text = iv
                 (content.findViewById<View>(R.id.uidai_version_value) as TextView).text = Config.RDS_VER
             }

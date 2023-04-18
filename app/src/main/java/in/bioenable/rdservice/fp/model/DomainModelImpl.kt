@@ -9,17 +9,24 @@ import `in`.bioenable.rdservice.fp.helper.XMLHelper
 import `in`.bioenable.rdservice.fp.network.ActivationInfo
 import `in`.bioenable.rdservice.fp.network.OtpvInfo
 import `in`.bioenable.rdservice.fp.network.VersionInfo
+import android.os.Build
+import android.os.Environment
 import android.util.Log
+import androidx.annotation.RequiresApi
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class DomainModelImpl(val app : App,
                       val domainModelCallback:DomainModel.DomainModelCallback) :
-        DomainModel,
-        CryptoHelper.KeysCreatorInteractor.OnPublicKeyAvailableCallback,
-        WebService.RegisterDeviceInteractor.Listener,
-        WebService.InitInteractor.OnInitCompletedListener,
-        IRootChecker.Callback
+    DomainModel,
+    CryptoHelper.KeysCreatorInteractor.OnPublicKeyAvailableCallback,
+    WebService.RegisterDeviceInteractor.Listener,
+    WebService.InitInteractor.OnInitCompletedListener,
+    IRootChecker.Callback
 {
 
     private val TAG = "DomainModelImpl"
@@ -89,10 +96,10 @@ class DomainModelImpl(val app : App,
 //                    app.store().read(app.store().getMcKeyForEnvironment(env)),
 //                    app.store().read(app.store().getUidaiCertKeyForEnvironment(env)))
             rdData.update(
-                    env,
-                    app.store().getDc(serial),
-                    app.store().getMc(serial,env),
-                    app.store().getUidaiCertificate(env))
+                env,
+                app.store().getDc(serial),
+                app.store().getMc(serial,env),
+                app.store().getUidaiCertificate(env))
             checkToCallCapture()
         }
     }
@@ -123,15 +130,15 @@ class DomainModelImpl(val app : App,
     private fun finalizeInfoCall(isReady:Boolean, serial:String){
         try {
             val deviceInfoXML = XMLHelper.DeviceInfoBuilder(isReady,serial)
-                    .setDpId(Config.DP_ID)
-                    .setMi(Config.MODEL_ID)
-                    .setRdsId(Config.RDS_ID)
-                    .setRdsVer(Config.RDS_VER)
+                .setDpId(Config.DP_ID)
+                .setMi(Config.MODEL_ID)
+                .setRdsId(Config.RDS_ID)
+                .setRdsVer(Config.RDS_VER)
 //                    .setDc(if(isReady)app.store().read(PersistentStore.Key.DC) else "")
 //                    .setMc(if(isReady)app.store().read(PersistentStore.Key.MC_P)else "")
-                    .setDc(if(isReady)app.store().getDc(serial) else "")
-                    .setMc(if(isReady)app.store().getMc(serial,"P") else "")
-                    .build()
+                .setDc(if(isReady)app.store().getDc(serial) else "")
+                .setMc(if(isReady)app.store().getMc(serial,"P") else "")
+                .build()
             val rdServiceInfoXML = XMLHelper.getInstance().createRDServiceXML(if(isReady)"READY" else "NOTREADY")
             domainModelCallback.onInfoXMLsPrepared(deviceInfoXML,rdServiceInfoXML)
         } catch (e:java.lang.Exception){
@@ -182,18 +189,18 @@ class DomainModelImpl(val app : App,
         Log.e(TAG,"initDevice: ")
         domainModelCallback.onLongProcessingStarted("Initializing...")
         app.webService().initInteractor().init(
-                serial,
-                Config.MODEL_ID,
-                Config.DP_ID,
-                Config.RDS_ID,
-                Config.RDS_VER,
-                app.store().getInternalVersionCode(),
-                app.store().getInternalVersionName(),
-                app.store().getOsName(),
-                app.store().getOsVersion(),
-                app.store().getImei()?:"",
-                app.store().getIpAddress(),
-                this)
+            serial,
+            Config.MODEL_ID,
+            Config.DP_ID,
+            Config.RDS_ID,
+            Config.RDS_VER,
+            app.store().getInternalVersionCode(),
+            app.store().getInternalVersionName(),
+            app.store().getOsName(),
+            app.store().getOsVersion(),
+            app.store().getImei()?:"",
+            app.store().getIpAddress(),
+            this)
     }
 
     private fun registerDevice(env:String,serial: String) {
@@ -277,18 +284,87 @@ class DomainModelImpl(val app : App,
 //        else finalizeCaptureCall(740)
     }
 
-    override fun submitIso(iso: ByteArray,type:Int,quality:Int) {
-        Log.e(TAG,"submitIso: $iso, $type, $quality")
-        val nmPoints : Int = iso.size/5
-        rdData.pidData.pid.bios.add(Bio()
-                .setPosh(ErrorCode.getPoshIndices()[count])
-                .setType(if(type==1)"FIR" else "FMR")
-                .setqScore(quality.toString())
-                .setNmPoints(nmPoints.toString())
-                .setEncodedBiometric(app.cryptoHelper().encodeToBase64String_DEFAULT(iso)))
-        count++
+    override fun submitIso(isofir: ByteArray,isofmr: ByteArray,type:Int,quality:Int) {
+        
+        val nmPointsfmr: Int = isofmr.size / 5
+
+        Log.e(TAG, "submitIso: $quality")
+
+
+        rdData.pidData.pid.bios.add(
+                    Bio()
+                        .setPosh(ErrorCode.getPoshIndices()[count])
+                        .setType("FMR")
+                        .setqScore(quality.toString())
+                        .setNmPoints(nmPointsfmr.toString())
+                        .setEncodedBiometric(app.cryptoHelper().encodeToBase64String_DEFAULT(isofmr))
+
+                )
+
+                val nmPointsfir: Int = isofir.size / 5
+
+                rdData.pidData.pid.bios.add(
+                    Bio()
+                        .setPosh(ErrorCode.getPoshIndices()[count])
+                        .setType("FIR")
+                        .setqScore(quality.toString())
+                        .setNmPoints(nmPointsfir.toString())
+                        .setEncodedBiometric(app.cryptoHelper().encodeToBase64String_DEFAULT(isofir))
+                )
+
+                 count++
+
+
         checkToCallCapture()
     }
+
+    override fun submitIsoFIR(isofir: ByteArray, type: Int, quality: Int) {
+        val nmPointsfir: Int = isofir.size / 5
+
+
+        Log.e(TAG, "submitIsoFIR: $quality")
+
+
+
+        rdData.pidData.pid.bios.add(
+            Bio()
+                .setPosh(ErrorCode.getPoshIndices()[count])
+                .setType("FIR")
+                .setqScore(quality.toString())
+                .setNmPoints(nmPointsfir.toString())
+                .setEncodedBiometric(app.cryptoHelper().encodeToBase64String_DEFAULT(isofir))
+        )
+
+
+        count++
+
+        checkToCallCapture()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun submitIsoFMR(isofmr: ByteArray, type: Int, quality: Int) {
+
+
+        val nmPointsfmr: Int = isofmr.size / 5
+
+        Log.e(TAG, "submitIsoFMR: $quality")
+
+        rdData.pidData.pid.bios.add(
+            Bio()
+                .setPosh(ErrorCode.getPoshIndices()[count])
+                .setType("FMR")
+                .setqScore(quality.toString())
+                .setNmPoints(nmPointsfmr.toString())
+                .setEncodedBiometric(app.cryptoHelper().encodeToBase64String_DEFAULT(isofmr)))
+                //.setEncodedBiometric(base64))
+
+        count++
+
+        checkToCallCapture()
+    }
+
+
+
 
     override fun submitDeviceReady() {
         domainModelCallback.onSerialNumberRequired()
@@ -320,21 +396,21 @@ class DomainModelImpl(val app : App,
         Log.e(TAG,"env: $env, public_key: $publicKey")
         domainModelCallback.onLongProcessingStarted("Registering device...")
         app.webService().registerDeviceInteractor()
-                .registerDevice(
-                        serial,
-                        Config.MODEL_ID,
-                        Config.DP_ID,
-                        Config.RDS_ID,
-                        Config.RDS_VER,
-                        app.store().getInternalVersionCode(),
-                        app.store().getInternalVersionName(),
-                        app.store().getOsName(),
-                        app.store().getOsVersion(),
-                        app.store().getImei()?:"",
-                        app.store().getIpAddress(),
-                        env,
-                        publicKey,
-                        this)
+            .registerDevice(
+                serial,
+                Config.MODEL_ID,
+                Config.DP_ID,
+                Config.RDS_ID,
+                Config.RDS_VER,
+                app.store().getInternalVersionCode(),
+                app.store().getInternalVersionName(),
+                app.store().getOsName(),
+                app.store().getOsVersion(),
+                app.store().getImei()?:"",
+                app.store().getIpAddress(),
+                env,
+                publicKey,
+                this)
     }
 
     override fun onRegistrationSuccess(env:String,dc: String, mc: String, uidaiCert: String) {

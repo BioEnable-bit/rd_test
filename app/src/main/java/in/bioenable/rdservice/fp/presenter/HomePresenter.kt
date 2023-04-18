@@ -123,7 +123,22 @@ class HomePresenter(val view:HomeView,val app:App):
         view.showBitmap(bitmap)
     }
 
-    override fun onCaptured(iso: ByteArray, type: Int, quality: Int) {}
+    override fun onCaptured(isofir: ByteArray, isofmr: ByteArray, type: Int, quality: Int) {
+
+
+
+    }
+
+    override fun onCapturedFIR(isofir: ByteArray, type: Int, quality: Int) {
+
+    }
+
+    override fun onCapturedFMR(isofmr: ByteArray, type: Int, quality: Int) {
+
+    }
+
+//    override fun onCaptured(iso: ByteArray, type: Int, quality: Int) {}
+   // override fun onCaptured2(iso: ByteArray, type: Int, quality: Int) {}
 
     override fun onCaptureTimedOut() {
         onDeviceReady(service?.getSerial()?:"")

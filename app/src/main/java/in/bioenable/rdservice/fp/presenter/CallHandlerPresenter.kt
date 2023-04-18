@@ -6,6 +6,7 @@ import `in`.bioenable.rdservice.fp.contracts.CallHandlerView
 import `in`.bioenable.rdservice.fp.contracts.IScannerService
 import `in`.bioenable.rdservice.fp.model.DomainModel
 import `in`.bioenable.rdservice.fp.model.DomainModelImpl
+import `in`.bioenable.rdservice.fp.ui.HomeActivity
 import android.util.Log
 
 class CallHandlerPresenter(private val view: CallHandlerView,
@@ -69,9 +70,26 @@ class CallHandlerPresenter(private val view: CallHandlerView,
 
     }
 
-    override fun onCaptured(iso: ByteArray, type: Int,quality:Int) {
-        domainModel.submitIso(iso,type,quality)
+    override fun onCaptured(isofir: ByteArray, isofmr: ByteArray, type: Int, quality: Int) {
+       domainModel.submitIso(isofir,isofmr,type,quality)
     }
+
+    override fun onCapturedFIR(isofir: ByteArray, type: Int, quality: Int) {
+        domainModel.submitIsoFIR(isofir,type,quality)
+    }
+
+    override fun onCapturedFMR(isofmr: ByteArray, type: Int, quality: Int) {
+
+
+            domainModel.submitIsoFMR(isofmr,type,quality)
+
+    }
+
+//    override fun onCaptured(iso: ByteArray, type: Int,quality:Int) {
+//        domainModel.submitIso(iso,type,quality)
+//
+//    }
+
 
     override fun onCaptureTimedOut() {
         domainModel.submitCaptureTimedOut()
@@ -89,6 +107,7 @@ class CallHandlerPresenter(private val view: CallHandlerView,
         domainModel.submitDeviceNotReady()
 //        domainModel.submitCaptureError()
     }
+
 
     override fun onCheckDeviceReady() {
         if(service?.getStatus()==IScannerService.ScannerStatus.READY)domainModel.submitDeviceReady()

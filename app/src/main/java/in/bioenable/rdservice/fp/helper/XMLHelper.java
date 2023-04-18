@@ -46,6 +46,8 @@ import static in.bioenable.rdservice.fp.model.Config.RDS_ID;
 import static in.bioenable.rdservice.fp.model.Config.RDS_VER;
 import static in.bioenable.rdservice.fp.model.Config.isSerialValid;
 
+import android.util.Log;
+
 /**
  * Created by RND on 3/21/2018.
  */
@@ -275,6 +277,8 @@ public class XMLHelper {
         rootElement.appendChild(biosElement);
         biosElement.setAttribute("dih",pid.getDih());
 
+        Log.e("TAG", "getPidDocument: ");
+
         for(Bio bio:pid.getBios()){
             Element bioElement = document.createElement("Bio");
             biosElement.appendChild(bioElement);
@@ -283,6 +287,7 @@ public class XMLHelper {
             bioElement.setAttribute("bs",bio.getBs());
             bioElement.setTextContent(bio.getEncodedBiometric());
         }
+
 
         if(null!=pid.getOtp()&&!pid.getOtp().isEmpty()
 //                &&pid.getOtp().matches("[0-9]{6}")

@@ -290,6 +290,7 @@ public class CryptoUtil {
             }
 
             Pid pidBlock = rdData.getPidData().getPid()
+
                     .setTs(tsStr)
                     .setVer(PID_VER)
                     .setWadh(rdData.getPidOptions().getWadh())
@@ -312,7 +313,14 @@ public class CryptoUtil {
 
             } else {
                 pidXML = XMLHelper.getInstance().createPidXML(pidBlock);
-                Log.e(TAG, "processAndSetPidData: "+pidXML);
+                int maxLogSize = 1000;
+                for(int i = 0; i <= pidXML.length() / maxLogSize; i++) {
+                    int start = i * maxLogSize;
+                    int end = (i+1) * maxLogSize;
+                    end = end > pidXML.length() ? pidXML.length() : end;
+                    Log.e(TAG, "processAndSetPidData: "+pidXML.substring(start, end));
+                }
+              //  Log.e(TAG, "processAndSetPidData: "+pidXML);
                 pidBytes = pidXML.getBytes();
             }
 
@@ -461,11 +469,13 @@ public class CryptoUtil {
         }
 
         ArrayList<Bio> bios = rdData.getPidData().getPid().getBios();
-        if(bios.size()==ErrorCode.getPoshIndices().length){
+
+      //  if(bios.size()==ErrorCode.getPoshIndices().length){
             Auth.Bios.Builder protoBios = Auth.Bios.newBuilder();
             int i=0;
             for(Bio bio:bios){
                 if(bio==null){
+                    
                     rdData.setErrCode(999);
                     break;
                 } else {
@@ -476,13 +486,13 @@ public class CryptoUtil {
                                     .setType(Auth.BioType.valueOf(bio.getType()))
                                     .setContent(ByteString.copyFrom(Base64.decode(bio.getEncodedBiometric(),Base64.DEFAULT)))
                                     .setBs(bio.getBs())
-                                    .build()
-                    );
+                                    .build());
                     i++;
                 }
             }
             protoPid.setBios(protoBios.setDih(pid.getDih().trim()).build());
-        }
+      //  }
+
         return protoPid.build();
     }
 

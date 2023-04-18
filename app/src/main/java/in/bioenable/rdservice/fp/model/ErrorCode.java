@@ -256,11 +256,20 @@ public class ErrorCode {
         int fcn = Integer.parseInt(fc);
         int ftn = Integer.parseInt(ft);
 
-        errorCode = ftn==0||ftn==1?0:110;
+        //errorCode = ftn==2?0:110;  // Change as per the new rule only FIR + FMR is valid
+        errorCode = ftn==0||ftn==1||ftn==2?0:110; // Change as per the FIR, FMR & FIR + FMR
 //        errorCode = ftn==0?0:110;
         if(errorCode!=0)return errorCode;
 
-        errorCode = fcn>0&&fcn<=10?0:120;
+        //previous code commented on 25-04
+       // errorCode = fcn>0&&fcn<=10?0:120;
+
+        //Newly added by Sahil Gaikwad - UIDAI notification dated 11-11-2021 Added on 25-04
+        if(ftn==0) //if ftype == 0 means ftype is FMR
+            errorCode = fcn>0&&fcn<=10?0:120;
+        else //if ftype == 1 or 2 means ftype is FIR or FMR + FIR
+            errorCode = fcn>0&&fcn<=2?0:120;
+
         if(errorCode!=0)return errorCode;
 
         return errorCode;

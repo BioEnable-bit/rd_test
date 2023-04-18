@@ -41,6 +41,7 @@ open class StatusActivity : AppCompatActivity(),
         initActivity()
     }
 
+
     private fun initActivity(){
         presenter = StatusPresenter(this,applicationContext as App)
 
@@ -61,7 +62,7 @@ open class StatusActivity : AppCompatActivity(),
         bindService(Intent(this,ScannerService::class.java),this, Context.BIND_AUTO_CREATE)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             android.R.id.home -> finish()
         }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.nitgen.SDK.AndroidBSP.NBioBSPJNI
 import com.nitgen.SDK.AndroidBSP.StaticVals
+import java.nio.charset.StandardCharsets
 
 class NitgenScanner(context:Context,val callbacks: IScanner.Callbacks) : IScanner,NBioBSPJNI.CAPTURE_CALLBACK {
 
@@ -44,6 +45,9 @@ class NitgenScanner(context:Context,val callbacks: IScanner.Callbacks) : IScanne
         Log.e(TAG, "capture: $timeout")
 
         var quality = 0//,count = 3;
+        //var isoData: ByteArray? = null Commented on 06-01-2022
+        var isoDatafir: ByteArray? = null
+        var isoDatafmr: ByteArray? = null
         var isoData: ByteArray? = null
         val captureHandle = bsp.FIR_HANDLE()
         val auditHandle = bsp.FIR_HANDLE()
@@ -53,39 +57,72 @@ class NitgenScanner(context:Context,val callbacks: IScanner.Callbacks) : IScanne
 
         bsp.Capture(NBioBSPJNI.FIR_PURPOSE.ENROLL, captureHandle, timeout, auditHandle, capturedData)
 
-//            bsp.Capture(NBioBSPJNI.FIR_PURPOSE.ENROLL,captureHandle,remainingTimeout,auditHandle,capturedData);
-//            remainingTimeout = (int)(timeline - System.currentTimeMillis());
 
         if (errorOccurredAndActed()) return
 
-        quality = capturedData.imageQuality
+        when (type) {
+            1 ->
+            {
+                Log.e(TAG, "capture: FIR")
+                inputFir.SetFIRHandle(auditHandle)
+                val exportAudit = export.AUDIT()
+                export.ExportAudit(inputFir, exportAudit)
 
-        if (type == 1) {
-            // for fir
-            inputFir.SetFIRHandle(auditHandle)
-            val exportAudit = export.AUDIT()
-            export.ExportAudit(inputFir, exportAudit)
+                if (errorOccurredAndActed()) return
 
-            if (errorOccurredAndActed()) return
+                val ISOBuffer = bsp.ISOBUFFER()
+                bsp.ExportRawToISOV1(exportAudit, ISOBuffer, false, NBioBSPJNI.COMPRESS_MODE.WSQ)
+                if (errorOccurredAndActed()) return
 
-            val ISOBuffer = bsp.ISOBUFFER()
-            bsp.ExportRawToISOV1(exportAudit, ISOBuffer, false, NBioBSPJNI.COMPRESS_MODE.WSQ)
-            if (errorOccurredAndActed()) return
+                isoDatafir = ISOBuffer.Data
 
-            isoData = ISOBuffer.Data
+                callbacks.onCapturedFIR(isoDatafir,type,quality)
+            }
+            0 ->
+            {
+                Log.e(TAG, "capture: FMR")
+                inputFir.SetFIRHandle(captureHandle)
+                val exportData = export.DATA()
+                export.ExportFIR(inputFir, exportData, NBioBSPJNI.EXPORT_MINCONV_TYPE.ISO)
+                if (errorOccurredAndActed()) return
 
-        } else {
-            // for fmr
-            inputFir.SetFIRHandle(captureHandle)
-            val exportData = export.DATA()
-            export.ExportFIR(inputFir, exportData, NBioBSPJNI.EXPORT_MINCONV_TYPE.ISO)
-            if (errorOccurredAndActed()) return
+                isoDatafmr = exportData.FingerData[0].Template[0].Data
 
-            isoData = exportData.FingerData[0].Template[0].Data
+               // Log.e(TAG, "capture: ${String(isoDatafmr, StandardCharsets.UTF_8)}")
+
+
+                callbacks.onCapturedFMR(isoDatafmr,type,quality)
+            }
+            else -> {
+                Log.e(TAG, "capture: FIR+FMR")
+
+                inputFir.SetFIRHandle(auditHandle)
+                val exportAudit = export.AUDIT()
+                export.ExportAudit(inputFir, exportAudit)
+
+                if (errorOccurredAndActed()) return
+
+                val ISOBuffer = bsp.ISOBUFFER()
+                bsp.ExportRawToISOV1(exportAudit, ISOBuffer, false, NBioBSPJNI.COMPRESS_MODE.WSQ)
+                if (errorOccurredAndActed()) return
+
+                isoDatafir = ISOBuffer.Data
+
+                inputFir.SetFIRHandle(captureHandle)
+                val exportData = export.DATA()
+                export.ExportFIR(inputFir, exportData, NBioBSPJNI.EXPORT_MINCONV_TYPE.ISO)
+                if (errorOccurredAndActed()) return
+
+                isoDatafmr = exportData.FingerData[0].Template[0].Data
+
+                callbacks.onCaptured(isoDatafir!!, isoDatafmr!!,type,quality)
+            }
         }
 
-        callbacks.onCaptured(isoData,type,quality)
-    }
+
+
+
+     }
 
     override fun cancelCapture() {
         Log.e(TAG,"cancelCapture: ")
@@ -138,6 +175,9 @@ class NitgenScanner(context:Context,val callbacks: IScanner.Callbacks) : IScanne
     }
 
     private fun errorOccurredAndActed():Boolean{
+
+
+
         when(bsp.GetErrorCode()){
             NBioBSPJNI.ERROR.NBioAPIERROR_NONE -> {
                 return false

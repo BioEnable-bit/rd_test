@@ -9,7 +9,10 @@ interface IScannerService {
     interface Callbacks {
         fun onOpened()
         fun onCaptured(bitmap:Any?,quality:Int)
-        fun onCaptured(iso:ByteArray,type:Int,quality:Int)
+       // fun onCaptured(iso:ByteArray,type:Int,quality:Int)
+        fun onCaptured(isofir:ByteArray,isofmr:ByteArray,type:Int,quality:Int)
+        fun onCapturedFIR(isofir:ByteArray,type:Int,quality:Int)
+        fun onCapturedFMR(isofmr:ByteArray,type:Int,quality:Int)
         fun onCaptureTimedOut()
         fun onCaptureCancelled()
         fun onErrorOccurred(error:Int)

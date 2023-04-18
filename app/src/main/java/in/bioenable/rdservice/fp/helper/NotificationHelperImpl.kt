@@ -12,6 +12,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 
 class NotificationHelperImpl(val context: Context) : NotificationHelper {
 
@@ -25,25 +26,29 @@ class NotificationHelperImpl(val context: Context) : NotificationHelper {
 
     fun sendNotification(id:Int, title: String, msg: String){
 
-        val not = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context,context.getString(R.string.notification_channel_id))
-        } else {
-            Notification.Builder(context)
-                    .setSound(soundUri())
-        }
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentText(msg)
-                .setContentTitle(title)
-                .setAutoCancel(true)
-                .setContentIntent(
-                        PendingIntent.getActivity(
-                                context,
-                                454,
-                                Intent(context,StatusActivity::class.java),
-                                0))
-                .build()
+        Toast.makeText(context, "$id,$title,$msg",Toast.LENGTH_SHORT).show()
 
-        nm.notify(id,not)
+
+
+//        val not = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            Notification.Builder(context,context.getString(R.string.notification_channel_id))
+//        } else {
+//            Notification.Builder(context)
+//                    .setSound(soundUri())
+//        }
+//                .setSmallIcon(R.drawable.notification_icon)
+//                .setContentText(msg)
+//                .setContentTitle(title)
+//                .setAutoCancel(true)
+//                .setContentIntent(
+//                        PendingIntent.getActivity(
+//                                context,
+//                                454,
+//                                Intent(context,StatusActivity::class.java),
+//                                0))
+//                .build()
+//
+//        nm.notify(id,not)
 
 //        val pi = PendingIntent.getActivity(context,0, Intent(context, activityKlass),0)
 //        val notification = Notification.Builder(context)

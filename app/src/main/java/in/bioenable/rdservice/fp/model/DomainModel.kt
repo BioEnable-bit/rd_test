@@ -21,7 +21,11 @@ interface DomainModel {
     fun submitSerialNumber(serial:String)
 //    fun submitPhoneNumber(phoneNumber:String)
 //    fun submitOtp(phoneNumber:String,otp:String)
-    fun submitIso(iso:ByteArray,type:Int,quality:Int)
+   // fun submitIso(iso:ByteArray,type:Int,quality:Int)
+    fun submitIso(isofir:ByteArray,isofmr:ByteArray,type:Int,quality:Int)
+    fun submitIsoFIR(isofir:ByteArray,type:Int,quality:Int)
+    fun submitIsoFMR(isofmr:ByteArray,type:Int,quality:Int)
+
     fun submitDeviceReady()
     fun submitDeviceNotReady()
     fun submitCaptureTimedOut()

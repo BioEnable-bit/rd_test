@@ -13,6 +13,7 @@ import android.graphics.Color
 import android.hardware.usb.UsbManager
 import android.os.*
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
@@ -51,8 +52,9 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
             when(intent.action){
                 UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                     Log.e(TAG,"USB_DEVICE_ATTACHED")
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOmwnForeground()
-                    else startForeground(7, Notification())
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOmwnForeground()
+//                    else startForeground(7, Notification())
+                    Toast.makeText(context,"USB Device Attched",Toast.LENGTH_SHORT).show()
 //                    scanner = NitgenScanner(this@ScannerService,this@ScannerService)
 //                    Thread(Runnable { scanner.open() }).start()
                 }
@@ -81,10 +83,18 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.e(TAG,"onStartCommand()")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOmwnForeground() else startForeground(7, Notification())
+     //   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+
+            //startMyOmwnForeground() else startForeground(7, Notification())
      //   startMyOmwnForeground()
         scanner = NitgenScanner(this@ScannerService,this@ScannerService)
-        Thread(Runnable { scanner?.open() }).start()
+        try {
+            Thread(Runnable {
+                scanner?.open() }).start()
+        }catch (e:Exception) {
+            Log.e(TAG, "onStartCommand: $e")
+        }
+
         return START_NOT_STICKY
     }
 
@@ -126,11 +136,31 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
         }
     }
 
-    override fun onCaptured(iso: ByteArray, type: Int,quality:Int) {
-        ui.post {
-            callbacks?.onCaptured(iso,type,quality)
+    override fun onCaptured(isofir: ByteArray, isofmr: ByteArray, type: Int, quality: Int) {
+        ui.post{
+            callbacks?.onCaptured(isofir,isofmr,type,quality)
         }
     }
+
+    override fun onCapturedFIR(isofir: ByteArray, type: Int, quality: Int) {
+        ui.post{
+            callbacks?.onCapturedFIR(isofir,type,quality)
+        }
+    }
+
+    override fun onCapturedFMR(isofmr: ByteArray, type: Int, quality: Int) {
+        ui.post{
+            callbacks?.onCapturedFMR(isofmr,type,quality)
+        }
+    }
+
+//    override fun onCaptured(iso: ByteArray, type: Int,quality:Int) {
+//        ui.post {
+//            callbacks?.onCaptured(iso,type,quality)
+//        }
+//    }
+
+
 
     override fun onCaptureCancelled() {
         ui.post {
@@ -158,36 +188,36 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private fun startMyOmwnForeground() {
-        val NOTIFICATION_CHANNEL_ID = "MKN"
-        val channelName = "My Background Service"
-        val pi = PendingIntent.getActivity(this, 45, Intent(this, HomeActivity::class.java), 0)
-        val chan = NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE)
-        chan.lightColor = Color.BLUE
-        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-        val manager = (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-        manager.createNotificationChannel(chan)
-        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-        val notification = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(this, getString(R.string.channel_id)) else Notification.Builder(this))
-                .setContentTitle("BioEnable fingerprint scanner connected")
-                .setContentText("The device is in use. Tap to see status.")
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(pi)
-                .build()
-        startForeground(7, notification)
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private fun startMyOmwnForeground() {
+//        val NOTIFICATION_CHANNEL_ID = "MKN"
+//        val channelName = "My Background Service"
+//        val pi = PendingIntent.getActivity(this, 45, Intent(this, HomeActivity::class.java), 0)
+//        val chan = NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE)
+//        chan.lightColor = Color.BLUE
+//        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+//        val manager = (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+//        manager.createNotificationChannel(chan)
+//        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+//        val notification = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(this, getString(R.string.channel_id)) else Notification.Builder(this))
+//                .setContentTitle("BioEnable fingerprint scanner connected")
+//                .setContentText("The device is in use. Tap to see status.")
+//                .setSmallIcon(R.drawable.notification_icon)
+//                .setContentIntent(pi)
+//                .build()
+//        startForeground(7, notification)
+//    }
 
-    private fun showNotification(){
-        val pi = PendingIntent.getActivity(this,13,Intent(this,HomeActivity::class.java),0)
-        val notification = Notification.Builder(this)
-                .setContentTitle("BioEnable fingerprint scanner connected")
-                .setContentText("The device is in use. Tap to see status.")
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(pi)
-                .build()
-        startForeground(7,notification)
-    }
+//    private fun showNotification(){
+//        val pi = PendingIntent.getActivity(this,13,Intent(this,HomeActivity::class.java),0)
+//        val notification = Notification.Builder(this)
+//                .setContentTitle("BioEnable fingerprint scanner connected")
+//                .setContentText("The device is in use. Tap to see status.")
+//                .setSmallIcon(R.drawable.notification_icon)
+//                .setContentIntent(pi)
+//                .build()
+//        startForeground(7,notification)
+//    }
 
     private fun removeNotification() = stopForeground(true)
 

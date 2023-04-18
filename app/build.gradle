@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
     defaultConfig {
         applicationId "in.bioenable.rdservice.fp"
         minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 24
-        versionName "1.0.2"
+        targetSdkVersion 31
+        versionCode 33
+        versionName "1.0.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
@@ -28,6 +28,8 @@ android {
 dependencies {
 
     // production implementations
+    implementation files('libs/NBioBSPJNI_v2.0.0.4(12).aar')
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -39,7 +41,9 @@ dependencies {
 //    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
 //    implementation 'com.google.android.gms:play-services-vision:15.0.2'
 //    implementation 'com.drewnoakes:metadata-extractor:2.11.0'
-    implementation files('libs/bioscan.aar')
+   // implementation files('libs/bioscan2.aar')
+    //implementation project(path: ':NBioBSPJNI_v2.0.0.3(11)')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.protobuf:protobuf-lite:3.0.1'
 

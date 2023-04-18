@@ -271,6 +271,10 @@ public final class Auth {
      */
     FIR(1),
     /**
+     * <code>FMRFIR = 4;</code>
+     */
+     FMRFIR(4),
+    /**
      * <code>IIR = 2;</code>
      */
     IIR(2),
@@ -314,6 +318,7 @@ public final class Auth {
       switch (value) {
         case 0: return FMR;
         case 1: return FIR;
+        case 4: return FMRFIR;
         case 2: return IIR;
         case 3: return FID;
         default: return null;

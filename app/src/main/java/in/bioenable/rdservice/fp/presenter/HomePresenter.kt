@@ -39,10 +39,11 @@ class HomePresenter(val view:HomeView,val app:App):
 
     fun estimateStatus(){
         val attestation = app.store().getSafetyNetAttestation()
-        isSafetyNetCompliant = !app.rootChecker().isAttestationOlderThanHours(attestation,Config.ATTESTATION_VALIDITY)
+        isSafetyNetCompliant = true //!app.rootChecker().isAttestationOlderThanHours(attestation,Config.ATTESTATION_VALIDITY)
+        //@yogesh changes regarding safetynet update 17/05/23 commented !app code line and pass true
         if(isSafetyNetCompliant)onFoundNonRooted()
         else checkForRoot()
-        if(service?.getStatus()==IScannerService.ScannerStatus.READY) {
+        if(service?.getStatus()==IScannerService.ScannerStatus.READY) { //READY replaced by USED - Yogesh changed
             isOpened = true
             serial = service?.getSerial()?:""
             onDeviceReady(serial)
@@ -58,7 +59,8 @@ class HomePresenter(val view:HomeView,val app:App):
         view.rootStatusView().showProgress()
         view.rootStatusView().hideButton()
         view.rootStatusView().setMessage("Checking...")
-        app.rootChecker().checkForRoot(this)
+        //app.rootChecker().checkForRoot(this)
+        //@yogesh changes regarding safetynet update 17/05/23 commented this last line of method to resolve error
     }
 
     private fun onDeviceReady(serial:String){

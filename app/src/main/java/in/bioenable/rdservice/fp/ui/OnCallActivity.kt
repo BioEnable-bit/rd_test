@@ -61,6 +61,7 @@ class OnCallActivity : AppCompatActivity(), ServiceConnection, CallHandlerView {
         presenter.attachService(service)
         when(intent.action){
             Config.INFO_CALL -> presenter.infoCall()
+            Config.INFO_CALL -> presenter.infoCall()
             Config.CAPTURE_CALL -> {
                 initCaptureView()
                 presenter.captureCall(intent.getStringExtra(Config.PID_OPTIONS))

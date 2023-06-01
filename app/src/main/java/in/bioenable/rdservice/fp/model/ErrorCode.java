@@ -257,7 +257,7 @@ public class ErrorCode {
         int ftn = Integer.parseInt(ft);
 
         //errorCode = ftn==2?0:110;  // Change as per the new rule only FIR + FMR is valid
-        errorCode = ftn==0||ftn==1||ftn==2?0:110; // Change as per the FIR, FMR & FIR + FMR
+        errorCode = ftn==0||ftn==1||ftn==2?0:110; // Change as per the FIR, FMR & FIR + FMR Changed by Aniket old conditions before ftn == 2 ftn==0||ftn==1||
 //        errorCode = ftn==0?0:110;
         if(errorCode!=0)return errorCode;
 

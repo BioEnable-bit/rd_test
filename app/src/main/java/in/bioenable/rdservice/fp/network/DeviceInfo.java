@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class DeviceInfo {
 
+
     @SerializedName("serial_no")
     private String serialNo;
 

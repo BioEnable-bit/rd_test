@@ -32,7 +32,7 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
 
     private val USB_PERMISSION = "in.bioenabletech.rdservice.action.USB_MANUAL_PERMISSION"
 
-    private var deviceStatus = IScannerService.ScannerStatus.NOT_READY
+    private var deviceStatus = IScannerService.ScannerStatus.NOT_READY // NOT_READY replaced by by USED for testing (Yogehsh Aswar)
 
     private var serial = ""
 
@@ -124,7 +124,7 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
     override fun onOpened(serial:String) {
         Log.e(TAG,"onOpened(): serial: $serial")
         this.serial = serial
-        this.deviceStatus = IScannerService.ScannerStatus.READY
+        this.deviceStatus = IScannerService.ScannerStatus.READY // Ready replaced by USED
         ui.post {
             callbacks?.onOpened()
         }
@@ -181,7 +181,7 @@ class ScannerService : Service(), IScannerService, IScanner.Callbacks {
     }
 
     override fun onDisconnected() {
-        this.deviceStatus = IScannerService.ScannerStatus.NOT_READY
+        this.deviceStatus = IScannerService.ScannerStatus.NOT_READY // NOT_READY replaced by by USED for testing (Yogehsh Aswar)
         this.serial = ""
         ui.post {
             callbacks?.onDeviceDisconnected()

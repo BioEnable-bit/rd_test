@@ -22,7 +22,7 @@ interface App {
 
     fun notificationHelper() : NotificationHelper
 
-    fun rootChecker() : IRootChecker
+    //fun rootChecker() : IRootChecker //@yogesh changes regarding safetynet update 17/05/23 - commented this function
 
     fun manager():Manager
 }

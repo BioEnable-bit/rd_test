@@ -124,11 +124,6 @@ class HomeActivity : AppCompatActivity(),
     }
 
 
-
-
-
-
-
     private fun initActivity() {
 
         Log.e(TAG, "initActivity URL: "+ CryptoUtil.getInstance().fullUrl)
@@ -143,7 +138,7 @@ class HomeActivity : AppCompatActivity(),
         svRegistration = StatusItemViewHolder(findViewById(R.id.sv_device_registration),"DEVICE REGISTRATION",R.drawable.ic_offline_pin_black_24dp)
 
         svRoot.setAction(Runnable {
-            presenter.checkForRoot()
+            presenter.checkForRoot()  //1
         })
 
         svConnection.setAction(Runnable {

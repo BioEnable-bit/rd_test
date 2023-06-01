@@ -72,7 +72,8 @@ class DomainModelImpl(val app : App,
     private fun onValidationSuccess(pidOptions:PidOptions){
         Log.e(TAG, "onValidationSuccess: $pidOptions")
         rdData.pidOptions = pidOptions
-        checkRootStatus()
+        onAttestationValid() //@yogesh added this method directly
+        //checkRootStatus() //@yogesh changes regarding safetynet update 17/05/23 commented this method to resolve error
 //        checkDeviceConnected()
     }
 
@@ -139,7 +140,7 @@ class DomainModelImpl(val app : App,
                 .setDc(if(isReady)app.store().getDc(serial) else "")
                 .setMc(if(isReady)app.store().getMc(serial,"P") else "")
                 .build()
-            val rdServiceInfoXML = XMLHelper.getInstance().createRDServiceXML(if(isReady)"READY" else "NOTREADY")
+            val rdServiceInfoXML = XMLHelper.getInstance().createRDServiceXML(if(isReady) Config.READY else Config.NOTREADY)
             domainModelCallback.onInfoXMLsPrepared(deviceInfoXML,rdServiceInfoXML)
         } catch (e:java.lang.Exception){
             e.printStackTrace()
@@ -210,25 +211,28 @@ class DomainModelImpl(val app : App,
 
     override fun prepareInfoXMLs() {
         infoCall = true
-        checkRootStatus()
+        onAttestationValid() //@yogesh changes regarding safetynet update 17/05/23 this method was called in checkRootStatus(), called it directly
+//        checkRootStatus() //@yogesh changes regarding safetynet update 17/05/23 commented this method to resolve error
 //        checkDeviceConnected()
     }
 
-    private fun checkRootStatus(){
-        if(app.rootChecker().isAttestationOlderThanHours(
-                app.store().getSafetyNetAttestation(),
-                Config.ATTESTATION_VALIDITY))onAttestationInvalid()
-        else onAttestationValid()
-    }
+    //@yogesh changes regarding safetynet update 17/05/23 commented this method to resolve error
+//    private fun checkRootStatus(){
+//        if(app.rootChecker().isAttestationOlderThanHours(
+//                app.store().getSafetyNetAttestation(),
+//                Config.ATTESTATION_VALIDITY))onAttestationInvalid()
+//        else onAttestationValid()
+//    }
 
     private fun onAttestationValid(){
         checkDeviceConnected()
     }
 
-    private fun onAttestationInvalid(){
-        domainModelCallback.onLongProcessingStarted("Running security check...")
-        app.rootChecker().checkForRoot(this)
-    }
+    //@yogesh changes regarding safetynet update 17/05/23 commented this method to resolve error
+//    private fun onAttestationInvalid(){
+//        domainModelCallback.onLongProcessingStarted("Running security check...")
+//        app.rootChecker().checkForRoot(this)
+//    }
 
     override fun submitSerialNumber(serial: String) {
         this.serial = serial

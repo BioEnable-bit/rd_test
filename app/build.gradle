@@ -7,8 +7,8 @@ android {
         applicationId "in.bioenable.rdservice.fp"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 33
-        versionName "1.0.5"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
@@ -53,6 +53,8 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.2.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+//    implementation 'com.google.android.play:integrity:1.1.0'
 }
 repositories {
     mavenCentral()

@@ -110,7 +110,7 @@ class CallHandlerPresenter(private val view: CallHandlerView,
 
 
     override fun onCheckDeviceReady() {
-        if(service?.getStatus()==IScannerService.ScannerStatus.READY)domainModel.submitDeviceReady()
+        if(service?.getStatus()==IScannerService.ScannerStatus.READY)domainModel.submitDeviceReady() // changed
         else domainModel.submitDeviceNotReady()
     }
 

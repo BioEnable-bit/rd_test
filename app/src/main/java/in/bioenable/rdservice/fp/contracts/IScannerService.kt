@@ -3,7 +3,7 @@ package `in`.bioenable.rdservice.fp.contracts
 interface IScannerService {
 
     enum class ScannerStatus {
-        READY,NOT_READY
+        READY,NOT_READY,USED // new variable added (Yogesh) for test purpose
     }
 
     interface Callbacks {

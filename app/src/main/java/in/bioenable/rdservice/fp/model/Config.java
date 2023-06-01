@@ -25,7 +25,7 @@ public class Config {
     public static final String RD_SERVICE_INFO = "RD_SERVICE_INFO";
     public static final String PID_DATA = "PID_DATA";
     public static final String PID_OPTIONS = "PID_OPTIONS";
-    public static final String READY = "USED";
+    public static final String READY = "READY";
     public static final String NOTREADY = "NOTREADY";
 
     public static final String MNGT_REQ_VER = "1.0.8";

@@ -61,12 +61,14 @@ public class App extends Application implements in.bioenable.rdservice.fp.contra
         return notificationHelper;
     }
 
-    @NotNull
-    @Override
-    public IRootChecker rootChecker() {
-        if(rootChecker==null)rootChecker = new RootChecker(this);
-        return rootChecker;
-    }
+    //@yogesh changes regarding safetynet update 17/05/23 commented below code
+//    @NotNull
+//    @Override
+//    public IRootChecker rootChecker() {
+//        if(rootChecker==null)rootChecker = new RootChecker(this);
+//        return rootChecker;
+//    }
+
 
     @NotNull
     @Override
